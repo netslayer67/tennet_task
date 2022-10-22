@@ -3,6 +3,7 @@ package models
 type Asset struct {
 	ID       int     `json:"id" gorm:"primary_key:auto_increment"`
 	WalletID int     `json:"wallet_id"`
+	Wallet   Wallet  `json:"wallet"`
 	Name     string  `json:"name" gorm:"type:varchar(255)"`
 	Symbol   string  `json:"symbol" gorm:"type:varchar(100)"`
 	Network  string  `json:"network" gorm:"type:varchar(100)"`
