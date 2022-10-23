@@ -5,17 +5,17 @@ import (
 	"task/models"
 )
 
-func (r *repository) CreateAsset(Asset models.Asset) (models.Asset, error) {
-	err := r.db.Create(&Asset).Error
+func (r *repository) CreateAsset(asset *assetdto.CreateAsset) ( error) {
+	err := r.db.Create(&asset).Error
 
-	return Asset, err
+	return err
 }
 
-func (r *repository) FindAsset() ([]models.Asset, error) {
-	var assets []models.Asset
-	err := r.db.Find(&assets).Error
+func (r *repository) FindAsset() (assets []models.Asset, err error) {
+	
+	err = r.db.Find(&assets).Error
 
-	return assets, err
+	return
 }
 
 func (r *repository) UpdateAsset(assetId int, param *assetdto.UpdateAsset) error {

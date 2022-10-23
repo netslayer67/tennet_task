@@ -7,7 +7,6 @@ import (
 	"strconv"
 	assetdto "task/dto/asset"
 	dto "task/dto/result"
-	"task/models"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
@@ -33,15 +32,7 @@ func (h *handler) CreateAsset(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	asset := models.Asset{
-		Name:    request.Name,
-		Symbol:  request.Symbol,
-		Network: request.Network,
-		Address: request.Address,
-		Balance: request.Balance,
-	}
-
-	newAsset, err := h.repo.CreateAsset(asset)
+	err = h.repo.CreateAsset(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
@@ -49,7 +40,7 @@ func (h *handler) CreateAsset(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: http.StatusInternalServerError, Data: newAsset}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: "Success Create Asset"}
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -117,8 +108,6 @@ func (h *handler) DeleteAsset(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusNoContent)
 }
-
-
 
 func extractAssetId(r *http.Request) (int, error) {
 	urlParams := mux.Vars(r)

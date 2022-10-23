@@ -6,10 +6,3 @@ type Wallet struct {
 	Assets []Asset `json:"assets"`
 }
 
-type WalletAsset struct {
-	ID int `json:"id"`
-}
-
-func (WalletAsset) TableName() string {
-	return "assets"
-}

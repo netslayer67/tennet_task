@@ -6,4 +6,5 @@ import (
 
 func RouteInit(r *mux.Router) {
 	AssetRoutes(r)
+	WalletRoutes(r)
 }
