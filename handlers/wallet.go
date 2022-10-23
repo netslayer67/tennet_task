@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	dto "task/dto/result"
 	walletdto "task/dto/wallet"
@@ -36,8 +37,9 @@ func (h *handler) CreateWallet(w http.ResponseWriter, r *http.Request) {
 
 	newWallet, err := h.repo.CreateWallet(wallet)
 	if err != nil {
+		log.Println(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
-		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
+		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: http.StatusText(http.StatusInternalServerError)}
 		json.NewEncoder(w).Encode(response)
 	}
 
@@ -51,11 +53,12 @@ func (h *handler) FindWallet(w http.ResponseWriter, r *http.Request) {
 
 	wallets, err := h.repo.FindWallet()
 	if err != nil {
+		log.Println(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
-		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: "Internal Server Error"}
 		json.NewEncoder(w).Encode(response)
 		return
-	} 
+	}
 
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: wallets}

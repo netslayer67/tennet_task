@@ -3,12 +3,17 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	assetdto "task/dto/asset"
 	dto "task/dto/result"
+	"task/models"
+	jwtToken "task/pkg/jwt"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
 )
 
@@ -32,7 +37,27 @@ func (h *handler) CreateAsset(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.repo.CreateAsset(request)
+	// Generate Token
+	claims := jwt.MapClaims{}
+	claims["address"] = request.Address
+	token, errGenerateToken := jwtToken.GenerateToken(&claims)
+	if errGenerateToken != nil {
+		log.Println(err)
+		fmt.Println("Address is invalid")
+		return
+	}
+
+	newAsset := models.Asset{
+		WalletID: request.WalletID,
+		Name:     request.Name,
+		Symbol:   request.Symbol,
+		Network:  request.Network,
+		Balance:  request.Balance,
+		Address:  request.Address,
+		Token:    token,
+	}
+
+	err = h.repo.CreateAsset(newAsset)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}

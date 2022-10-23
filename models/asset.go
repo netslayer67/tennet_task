@@ -9,6 +9,7 @@ type Asset struct {
 	Network  string  `json:"network" gorm:"type:varchar(100)"`
 	Address  string  `json:"address" gorm:"type:varchar(42)"`
 	Balance  float64 `json:"balance" gorm:"type:decimal(16,8)"`
+	Token    string  `json:"token"`
 }
 
 type WalletAsset struct {
