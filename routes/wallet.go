@@ -15,4 +15,6 @@ func WalletRoutes(r *mux.Router) {
 
 	r.HandleFunc("/wallet", h.CreateWallet).Methods(http.MethodPost)
 	r.HandleFunc("/wallets", h.FindWallet).Methods(http.MethodGet)
+	r.HandleFunc("/wallet/{id}", h.UpdateWallet).Methods(http.MethodPatch)
+	r.HandleFunc("/wallets/{id}", h.DeleteWallet).Methods(http.MethodDelete)
 }

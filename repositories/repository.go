@@ -22,7 +22,8 @@ type Repository interface {
 	//Wallet repository
 	CreateWallet(Wallet models.Wallet) (models.Wallet, error)
 	FindWallet() ([]models.Wallet, error)
-	UpdateWallet(walletId int, param *walletdto.CreateWallet) error
+	UpdateWallet(walletId int, param *walletdto.UpdateWallet) error
+	DeleteWallet(walletId int) error
 
 	//AssetTransaction Repository
 	CreateTransaction(AssetTransaction models.Transaction) error

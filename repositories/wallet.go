@@ -18,12 +18,19 @@ func (r *repository) FindWallet() ([]models.Wallet, error) {
 	return wallets, err
 }
 
-func (r *repository) UpdateWallet(walletId int, param *walletdto.CreateWallet) error {
+func (r *repository) UpdateWallet(walletId int, param *walletdto.UpdateWallet) error {
 
 	err := r.db.Model(&models.Wallet{}).Where("id = ?", walletId).
 		Updates(&models.Wallet{
 			Name: param.Name,
 		}).Error
+
+	return err
+}
+
+func (r *repository) DeleteWallet(walletId int) error {
+
+	err := r.db.Delete(&models.Wallet{}, walletId).Error
 
 	return err
 }
