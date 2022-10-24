@@ -11,6 +11,7 @@ func RunMigration() {
 	err := config.DB.AutoMigrate(
 		&models.Asset{},
 		&models.Wallet{},
+		&models.Transaction{},
 	)
 
 	if err != nil {

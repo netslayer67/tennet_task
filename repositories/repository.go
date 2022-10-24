@@ -28,6 +28,7 @@ type Repository interface {
 	//AssetTransaction Repository
 	CreateTransaction(AssetTransaction models.Transaction) error
 	GetAssetByID(ID int) (models.Asset, error)
+	UpdateAssetBalance(Asset models.Asset, assetBalance float64, isAdd bool) error
 }
 
 func NewRepository(db *gorm.DB) Repository {
